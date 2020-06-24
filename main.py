@@ -55,11 +55,17 @@ class Character:
     def addinfo(self, info_type, content, **args):
         pass
 
-    def load_characters_info(self, who):
+    def load_info(self, who: str):
         char_dict = load_all_characters_info('角色')
         self.brief = char_dict[who][1]
         print(char_dict[who][1])
 
+    def save_character(self):
+        pass
+
+    def delete_character(self):
+        pass
+
 
 taran = Character('taran', 'assassin', 'greeling', '21', {'lover': 'tuna', 'parents': 'Tarlonarr, ?'})
-taran.load_characters_info('塔伦')
+taran.load_info('塔伦')
