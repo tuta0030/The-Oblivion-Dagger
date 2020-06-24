@@ -18,29 +18,30 @@
 
 """
 import re
+import os
 
-EACH_CHARACTER_PATTERN = re.compile('姓名-.+?(?=姓名-)', re.DOTALL)
-EACH_CHARACTER_NAME_PATTERN = re.compile('(?<=姓名-).+(?=[：:])')
+PATTERN_EACH_CHARACTER = re.compile('姓名-.+?(?=姓名-)', re.DOTALL)
+PATTERN_EACH_CHARACTER_NAME = re.compile('(?<=姓名-).+(?=[：:])')
+PATH_CHARACTERS_OBJ = os.curdir+'\\Characters\\'
 
 
 def load_all_characters_info(which_file: str) -> dict:
     char_dict = {}
     raw_content = open(which_file, 'r', encoding='utf-8').read()
-    _all = re.findall(EACH_CHARACTER_PATTERN, raw_content)
+    _all = re.findall(PATTERN_EACH_CHARACTER, raw_content)
     index = 0
     for i in _all:
-        char_dict[re.findall(EACH_CHARACTER_NAME_PATTERN, i)[0]] = [index, i]
+        char_dict[re.findall(PATTERN_EACH_CHARACTER_NAME, i)[0]] = [index, i]
         index += 1
     return char_dict
 
 
 class Character:
 
-    def __init__(self, name, brief, species, age, *relations):
+    def __init__(self, name, brief, species, *relations):
         self.name = name
         self.brief = brief
         self.species = species
-        self.age = age
         self.relations = relations
         pass
 
@@ -48,7 +49,6 @@ class Character:
         print('名字:\t' + self.name)
         print('简介:\t' + self.brief)
         print('种族:\t' + self.species)
-        print('年龄:\t' + self.age)
         print('关系:\t', end='')
         print(self.relations)
 
@@ -61,11 +61,20 @@ class Character:
         print(char_dict[who][1])
 
     def save_character(self):
-        pass
+        with open(PATH_CHARACTERS_OBJ+self.name+'.py', 'w', encoding='utf-8') as f:
+            f.write('name = '+f'\'{self.name}\'')
+            f.write('\n')
+            f.write('brief = ' + f'\"\"\"{self.brief}\"\"\"')
+            f.write('\n')
+            f.write('species = '+f'\'{self.species}\'')
+            f.write('\n')
+            f.write('relations = ' + f'\"\"\"{str(self.relations)}\"\"\"')
+            f.write('\n')
 
     def delete_character(self):
         pass
 
 
-taran = Character('taran', 'assassin', 'greeling', '21', {'lover': 'tuna', 'parents': 'Tarlonarr, ?'})
+taran = Character('taran', 'None', 'greeling', '21', {'lover': 'tuna', 'parents': 'Tarlonarr, ?'})
 taran.load_info('塔伦')
+taran.save_character()
