@@ -17,6 +17,7 @@
 4. 添加
 
 """
+
 import re
 import os
 
@@ -72,9 +73,9 @@ class Character:
             f.write('\n')
 
     def delete_character(self):
-        pass
+        os.remove(PATH_CHARACTERS_OBJ+self.name+'.py')
 
 
 taran = Character('taran', 'None', 'greeling', '21', {'lover': 'tuna', 'parents': 'Tarlonarr, ?'})
 taran.load_info('塔伦')
-taran.save_character()
+
